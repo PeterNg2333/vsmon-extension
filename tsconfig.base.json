@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "target": "ES2022",
+    "sourceMap": true,
+    "declaration": true,
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "composite": true,
+    "declarationMap": true,
+    "paths": {
+      "@vsmon/logic": ["./packages/logic/src/index.ts"],
+      "@vsmon/view": ["./packages/view/src/main.tsx"]
+    }
+  },
+  "watchOptions": {
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": [
+      "**/node_modules",
+      "dist",
+      "out",
+      ".turbo",
+      ".gemini"
+    ]
+  },
+  "exclude": ["node_modules", "**/node_modules/*", "dist", "out"]
+}
