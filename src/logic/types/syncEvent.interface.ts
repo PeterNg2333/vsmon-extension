@@ -1,16 +1,27 @@
 import { IGameState, IFlowState } from "./game.interface";
 
-// From VSCode Host/Chrome to View
+// ============ From VSCode Host/Chrome to View ============ // 
+interface IXPUpdatePayload {
+    id: string;
+    xp: number;
+    level: number;
+}
+
 type HostToViewMessageType =
     | { type: 'SYNC_STATE'; payload: IGameState }
-    | { type: 'XP_UPDATE'; payload: { id: string, xp: number, level: number } }
+    | { type: 'XP_UPDATE'; payload: IXPUpdatePayload }
     | { type: 'FLOW_STATUS'; payload: IFlowState };
 
+export { IXPUpdatePayload, HostToViewMessageType }
 
+// ============ From View to VSCode Host/Chrome ============ // 
+interface IRenameMonsterPayload {
+    id: string;
+    newName: string;
+}
 
-// From View to VSCode Host/Chrome
 type ViewToHostMessageType =
     | { type: 'READY' }
-    | { type: 'RENAME_MONSTER'; payload: { id: string, newName: string } };
+    | { type: 'RENAME_MONSTER'; payload: IRenameMonsterPayload };
 
-export { HostToViewMessageType, ViewToHostMessageType };
+export { ViewToHostMessageType, IRenameMonsterPayload };

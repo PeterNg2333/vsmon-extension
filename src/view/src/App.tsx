@@ -1,60 +1,67 @@
-import Preact from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
-interface XPUpdatePayload {
-  id: string;
-  xp: number;
-  level: number;
-}
+import { HostToViewMessageType } from "../../logic/types";
+import { gameState, xpUpdate } from "../store/GameStateStore";
 
-const App: Preact.ComponentType = () => {
-  const [xpData, setXpData] = useState<XPUpdatePayload | null>(null);
+const App = () => {
+  const [msgCount, setMsgCount] = useState<number>(0);
 
   useEffect(() => {
+    console.log("[VSMon View] App component mounted");
+
     const handleMessage = (event: MessageEvent) => {
-      const message = event.data;
-      switch (message.type) {
-        case "XP_UPDATE":
-          setXpData(message.payload);
-          break;
+      const message = event.data as HostToViewMessageType;
+      console.log("[VSMon View] Received message:", message);
+
+      if (message.type === "XP_UPDATE") {
+        xpUpdate.value = { ...message.payload };
+        setMsgCount((c) => c + 1);
+      } else if (message.type === "SYNC_STATE") {
+        gameState.value = message.payload;
+        setMsgCount((c) => c + 1);
       }
     };
+
     window.addEventListener("message", handleMessage);
+
+    try {
+      const vscode = (window as any).acquireVsCodeApi?.();
+      vscode?.postMessage({ type: "READY" });
+      console.log("[VSMon View] Sent READY to Host");
+    } catch (e) {
+      console.warn(
+        "[VSMon View] acquireVsCodeApi failed (ignore if in browser)",
+      );
+    }
+
     return () => window.removeEventListener("message", handleMessage);
   }, []);
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        position: "relative",
-        backgroundColor: "#003d38ff",
-        color: "white",
-        padding: "10px",
-      }}
-    >
-      <h2>VSMon Garden</h2>
-
-      {xpData ? (
-        <div
-          style={{
-            marginTop: "20px",
-            border: "1px solid #4fd1c5",
-            padding: "10px",
-            borderRadius: "4px",
-          }}
-        >
+    <main className="container-fluid" style={{ padding: "1rem" }}>
+      <div className="nes-container with-title is-rounded is-dark">
+        <p className="title">VSMon Debug ({msgCount})</p>
+        {!xpUpdate.value ? (
           <p>
-            <strong>Status:</strong> Connected
+            Waiting for keystrokes... <br />
+            (Please type in your editor)
           </p>
-          <p>Level: {xpData.level}</p>
-          <p>XP: {Math.floor(xpData.xp)}</p>
-        </div>
-      ) : (
-        <p>Waiting for keystrokes...</p>
-      )}
-    </div>
+        ) : (
+          <div className="lists">
+            <ul className="nes-list is-disc">
+              <li>ID: {xpUpdate.value.id}</li>
+              <li>LV: {xpUpdate.value.level}</li>
+              <li>XP: {Math.floor(xpUpdate.value.xp)}</li>
+            </ul>
+            <progress
+              className="nes-progress is-primary"
+              value={xpUpdate.value.xp % 100}
+              max="100"
+            ></progress>
+          </div>
+        )}
+      </div>
+    </main>
   );
 };
 

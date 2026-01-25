@@ -12,6 +12,11 @@ export {
 } from "./monster.interface";
 
 export {
-    HostToViewMessageType,
+    IXPUpdatePayload,
+    HostToViewMessageType
+} from "./syncEvent.interface";
+
+export {
+    IRenameMonsterPayload,
     ViewToHostMessageType
 } from "./syncEvent.interface";

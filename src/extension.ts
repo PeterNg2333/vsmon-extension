@@ -4,6 +4,7 @@ import MonsterService from "./extensions/services/MonsterService";
 import ViewController from "./extensions/ViewController";
 import CommandController from "./extensions/CommandController";
 import KeystrokeController from "./extensions/KeystrokeController";
+import SyncController from "./extensions/SyncController";
 
 const activate = (context: vscode.ExtensionContext) => {
     console.log("[VSMon] Extension is Loaded");
@@ -15,6 +16,7 @@ const activate = (context: vscode.ExtensionContext) => {
     const viewController = new ViewController(context.extensionUri);
     const commandController = new CommandController(monsterService);
     const keystrokeController = new KeystrokeController(monsterService, viewController);
+    new SyncController(monsterService, viewController);
 
     viewController.registerWebview(context);
     commandController.registerCommands(context);

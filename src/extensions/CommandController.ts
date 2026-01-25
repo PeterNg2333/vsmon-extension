@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import MonsterService from "./services/MonsterService";
 
-
 class CommandController implements vscode.Disposable {
     private _disposables: vscode.Disposable[] = [];
 
@@ -16,7 +15,9 @@ class CommandController implements vscode.Disposable {
             const monster = this._monsterService.activeMonster;
             if (monster) {
                 const { nickname, level, xp } = monster;
-                vscode.window.showInformationMessage(`[VSMon] ${nickname}: Lv.${level} (XP: ${Math.floor(xp)})`);
+                vscode.window.showInformationMessage(
+                    `[VSMon] ${nickname}: Lv.${level} (XP: ${Math.floor(xp)})`,
+                );
             } else {
                 vscode.window.showInformationMessage(`[VSMon] No active monster.`);
             }
@@ -31,10 +32,8 @@ class CommandController implements vscode.Disposable {
     }
 
     public dispose() {
-        this._disposables.forEach(d => d.dispose());
+        this._disposables.forEach((d) => d.dispose());
     }
 }
-
-
 
 export default CommandController;

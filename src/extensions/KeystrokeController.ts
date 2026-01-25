@@ -7,7 +7,7 @@ class KeystrokeController implements vscode.Disposable {
 
     constructor(
         private readonly _monsterService: MonsterService,
-        private readonly _viewController: ViewController
+        private readonly _viewController: ViewController,
     ) { }
 
     public registerEvents(context: vscode.ExtensionContext) {
@@ -16,7 +16,10 @@ class KeystrokeController implements vscode.Disposable {
         }, context);
     }
 
-    private _register(handler: (evt: vscode.TextDocumentChangeEvent) => void, context: vscode.ExtensionContext) {
+    private _register(
+        handler: (evt: vscode.TextDocumentChangeEvent) => void,
+        context: vscode.ExtensionContext,
+    ) {
         const disposable = vscode.workspace.onDidChangeTextDocument(handler);
         context.subscriptions.push(disposable);
         this._disposables.push(disposable);
@@ -27,7 +30,7 @@ class KeystrokeController implements vscode.Disposable {
             // Delete (rangeLength: length of range got replaced)
             if (change.text.length === 0 && change.rangeLength > 0) return acc + 1;
             // Newline (Only count when length > 1)
-            if (change.text === '\r\n') return acc + 1;
+            if (change.text === "\r\n") return acc + 1;
             // Insert (Only count when length > 1, but max 2 to Anti-Vibe Code)
             return acc + Math.min(2, change.text.length);
         }, 0);
@@ -39,23 +42,23 @@ class KeystrokeController implements vscode.Disposable {
         if (!result) return;
 
         this._viewController.postMessage({
-            type: 'XP_UPDATE',
+            type: "XP_UPDATE",
             payload: {
                 id: result.monster.id,
                 xp: result.monster.xp,
-                level: result.monster.level
-            }
+                level: result.monster.level,
+            },
         });
 
         if (result.didLevelUp) {
             vscode.window.showInformationMessage(
-                `[VSMon] ${result.monster.nickname} Leveled Up to ${result.monster.level}!`
+                `[VSMon] ${result.monster.nickname} Leveled Up to ${result.monster.level}!`,
             );
         }
     }
 
     public dispose() {
-        this._disposables.forEach(d => d.dispose());
+        this._disposables.forEach((d) => d.dispose());
     }
 }
 

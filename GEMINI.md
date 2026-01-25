@@ -107,9 +107,9 @@
 - [x] **Init**: 初始化專案結構 (`src/extension`, `src/view`, `src/logic`)。
 - [x] **Build Setup**: 設定 `vite` 與 `tsc` 的並行構建流程。
 - [x] **View Setup**: Preact + Hello World 渲染成功。
-- [ ] **Logic (Types)**: 定義型職安全的通訊協定 (`MonsterState`, `SyncEvent`)。
-- [ ] **Logic (Core)**: 實作基礎數據模型與 XP 邏輯 (1 Keystroke = 1 XP)。
-- [ ] **Extension**: 實作 `KeystrokeTracker` 並透過 logic 處理邏輯，最後 `postMessage` 給前端。
+- [x] **Logic (Types)**: 定義型職安全的通訊協定 (`MonsterState`, `SyncEvent`)。
+- [x] **Logic (Core)**: 實作基礎數據模型與 XP 邏輯 (1 Keystroke = 1 XP)。
+- [x] **Extension**: 實作 `KeystrokeTracker` 並透過 logic 處理邏輯，最後 `postMessage` 給前端。
 - [ ] **View Loop**: 引入 LittleJS 並實作生命週期偵測。
 
 ### Phase 2: Entity System & Smooth Interaction
