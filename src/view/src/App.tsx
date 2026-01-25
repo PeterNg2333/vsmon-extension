@@ -1,19 +1,23 @@
 import preact from "preact";
-
-import { useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 
+// Tabs
+import JournalTab from "./tabs/Journal";
+import RanchTab from "./tabs/Ranch";
+import StorageTab from "./tabs/Storage";
+
 import { HostToViewMessageType } from "../../logic/types";
-import {
-  gameState,
-  xpUpdate,
-  setGameState,
-  setXPUpdate,
-} from "../store/GameStateStore";
+import { setGameState, setXPUpdate } from "../store/GameStateStore";
+
+// Type for Tab IDs
+type TabId = "journal" | "ranch" | "storage";
 
 const App: preact.ComponentType = () => {
+  const [activeTab, setActiveTab] = useState<TabId>("journal");
+
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
       const message = event.data as HostToViewMessageType;
@@ -32,24 +36,21 @@ const App: preact.ComponentType = () => {
   }, []);
 
   return (
-    <main class="flex flex-col min-h-screen bg-neutral-900 text-white overflow-hidden">
-      <Header />
+    <main class="flex flex-col h-screen w-full bg-neutral-900 text-white overflow-hidden selection:bg-blue-500/30">
+      <div class="flex-none z-50">
+        <Header />
+      </div>
 
-      <main class="flex flex-col w-full pt-16 items-center justify-center">
-        <div class="p-8">
-          {xpUpdate.value ? (
-            <div>
-              <p>Name: {xpUpdate.value.id}</p>
-              <p>XP: {xpUpdate.value.xp}</p>
-              <p>Level: {xpUpdate.value.level}</p>
-            </div>
-          ) : (
-            <div>Loading...</div>
-          )}
-        </div>
-      </main>
+      {/* Content Area */}
+      {activeTab === "journal" && <JournalTab />}
+      {activeTab === "ranch" && <RanchTab />}
+      {activeTab === "storage" && <StorageTab />}
 
-      <Footer />
+
+        <Footer
+          activeTab={activeTab}
+          onTabChange={(tab) => setActiveTab(tab as TabId)}
+        />
     </main>
   );
 };
