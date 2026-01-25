@@ -54,27 +54,6 @@ class WebViewProvider implements vscode.WebviewViewProvider {
             <meta http-equiv="Content-Security-Policy"
                 content="default-src 'none'; style-src ${webview.cspSource} 'unsafe-inline'; script-src 'nonce-${nonce}' ${webview.cspSource} 'unsafe-eval';">
             <link href="${styleUri}" rel="stylesheet" />
-            <style nonce="${nonce}">    
-                * {
-                    box-sizing: border-box;
-                    margin: 0;
-                    padding: 0;
-                }
-
-                html,
-                body {
-                    width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                    background-color: transparent;
-                }
-
-                body {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                }
-            </style>
             <title>VSMon</title>
         </head>
 
