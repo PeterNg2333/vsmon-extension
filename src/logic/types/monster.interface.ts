@@ -4,6 +4,19 @@ enum MonsterType {
     Water = 'water',
     Grass = 'grass',
     Electric = 'electric',
+    Ice = 'ice',
+    Fighting = 'fighting',
+    Poison = 'poison',
+    Ground = 'ground',
+    Flying = 'flying',
+    Psychic = 'psychic',
+    Bug = 'bug',
+    Rock = 'rock',
+    Ghost = 'ghost',
+    Dragon = 'dragon',
+    Steel = 'steel',
+    Fairy = 'fairy',
+    Dark = 'dark',
 }
 
 enum MonsterRarity {
@@ -20,22 +33,33 @@ interface IMonsterAnimation {
 }
 
 interface IMonsterSpecies {
-    id: string;
+    id: number;
     name: string;
     types: MonsterType[];
     rarity: MonsterRarity;
-    spriteInfo: {
-        sheetPath: string;
-        frameSize: { width: number, height: number };
-        animations: IMonsterAnimation;
-    };
     baseStats: {
         hp: number;
         atk: number;
         def: number;
+        spAtk: number;
+        spDef: number;
+        speed: number;
     };
-    evolutionId?: string;
-    evolutionLevel?: number;
+
+    catchRate: number;    
+    baseExp: number;
+    growthRate: string;
+    spriteInfo: {
+        main: string;
+        frameSize?: { width: number, height: number };
+        animations?: IMonsterAnimation;
+    };
+    evolution?: {
+        targetId: number;
+        level?: number;
+        item?: string;
+    };
+    meta?: Record<string, any>;
 }
 
 interface IMonsterState {
@@ -44,9 +68,8 @@ interface IMonsterState {
     nickname: string;
     level: number;
     xp: number;
-    personality: {
+    personality?: {
         nature: string;
-        statMultipliers: { hp: number; atk: number; def: number };
     };
     caughtAt: number;
 }
