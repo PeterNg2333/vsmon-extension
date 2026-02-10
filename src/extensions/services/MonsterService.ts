@@ -26,16 +26,19 @@ class MonsterService {
             level: 1,
             xp: 0,
             species: {
-                id: "p004",
+                id: 4,
                 name: "小火龍",
                 types: [MonsterType.Fire],
                 rarity: MonsterRarity.Common,
+                catchRate: 45,
+                baseExp: 62,
+                growthRate: "mediumSlow",
                 spriteInfo: {
-                    sheetPath: "",
+                    main: "",
                     frameSize: { width: 32, height: 32 },
                     animations: { idle: [0], walk: [0], frameRate: 8 },
                 },
-                baseStats: { hp: 39, atk: 52, def: 43 },
+                baseStats: { hp: 39, atk: 52, def: 43, spAtk: 60, spDef: 50, speed: 65 },
             },
             personality: {
                 nature: "Brave",
